@@ -1,3 +1,9 @@
+const token = document.cookie.split("=")[1];
+if (token) {
+  alert("You are already logged in!");
+  window.location.href = "/";
+}
+
 document.querySelector("form").addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -10,7 +16,7 @@ document.querySelector("form").addEventListener("submit", async (e) => {
     return;
   }
 
-  console.log("username", username, "password", password);
+  //   console.log("username", username, "password", password);
 
   try {
     const response = await fetch("/signup", {
@@ -25,7 +31,7 @@ document.querySelector("form").addEventListener("submit", async (e) => {
 
     if (response.ok) {
       //   alert("Signup successful! You can now log in.");
-      window.location.href = "/login";
+      window.location.href = "/";
     } else {
       if (data.errors) {
         // Display the first error message
@@ -38,9 +44,3 @@ document.querySelector("form").addEventListener("submit", async (e) => {
     console.error("Error:", error);
   }
 });
-
-const token = document.cookie.split("=")[1];
-if (token) {
-  alert("You are already logged in!");
-  window.location.href = "/";
-}

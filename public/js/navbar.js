@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <i class="bi bi-person-circle"></i>
         </a>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
-          <li><a class="dropdown-item" href="/favourites">Favourites</a></li>
+          <li><a class="dropdown-item" href="/favorites">Favorites</a></li>
           <li><a class="dropdown-item" id="logoutButton" href="#">Log Out</a></li>
         </ul>
       `;

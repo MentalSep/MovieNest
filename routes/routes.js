@@ -159,4 +159,48 @@ router.post("/api/favorites", verifyToken, async (req, res) => {
   }
 });
 
+router.get("/api/favorites", verifyToken, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.userId);
+    if (!user) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+
+    const favoriteMovies = user.favoriteMovies;
+
+    res.json({ favoriteMovies });
+  } catch (error) {
+    console.error("Error fetching favorites:", error);
+    res.status(500).json({ msg: "Server error" });
+  }
+});
+
+router.get("/favorites", (req, res) => {
+  res.sendFile(Path.join(dirname, "../public/favorites.html"));
+});
+
+router.post("/unfavorite", verifyToken, async (req, res) => {
+  const { movieId } = req.body;
+  const userId = req.user.userId;
+
+  // console.log("movieId", movieId, "userId", userId);
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+
+    user.favoriteMovies = user.favoriteMovies.filter((id) => id != movieId);
+    // console.log("user.favoriteMovies", user.favoriteMovies);
+
+    await user.save();
+
+    res.status(200).json({ msg: "Movie removed from favorites" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: "Server error" });
+  }
+});
+
 export default router;

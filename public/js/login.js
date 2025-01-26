@@ -1,3 +1,9 @@
+const token = document.cookie.split("=")[1];
+if (token) {
+  alert("You are already logged in!");
+  window.location.href = "/";
+}
+
 document.querySelector("form").addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -25,9 +31,3 @@ document.querySelector("form").addEventListener("submit", async (e) => {
     console.error("Error:", error);
   }
 });
-
-const token = document.cookie.split("=")[1];
-if (token) {
-  alert("You are already logged in!");
-  window.location.href = "/";
-}
