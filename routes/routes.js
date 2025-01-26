@@ -18,4 +18,12 @@ router.get("/explore", (req, res) => {
   res.sendFile(Path.join(dirname, "../public/explore.html"));
 });
 
+router.get("/login", (req, res) => {
+  res.sendFile(Path.join(dirname, "../public/login.html"));
+});
+
+router.get("/signup", (req, res) => {
+  res.sendFile(Path.join(dirname, "../public/signup.html"));
+});
+
 export default router;

@@ -1,0 +1,83 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+
+/* Dark theme colors */
+:root {
+  --bg-dark: #121212;
+  --bg-darker: #0a0a0a;
+  --text-primary: #ffffff;
+  --text-secondary: #b3b3b3;
+  --primary-color: #e50914;
+  --primary-hover: #f40612;
+}
+
+body {
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  font-family: "Roboto", sans-serif;
+}
+
+/* Navbar styling */
+.navbar {
+  background-color: var(--bg-darker);
+  padding: 1rem 0;
+}
+
+.navbar-brand {
+  color: var(--primary-color);
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.nav-link {
+  color: var(--text-secondary) !important;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--text-primary) !important;
+}
+
+/* Login Form */
+.login-page {
+  margin-top: 100px;
+}
+
+.card {
+  background-color: var(--bg-darker);
+  color: var(--text-primary);
+  border: none;
+  border-radius: 8px;
+}
+
+.card h2 {
+  color: var(--primary-color);
+}
+
+.form-label {
+  color: var(--text-secondary);
+}
+
+.form-control {
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  border: 1px solid var(--text-secondary);
+}
+
+.form-control:focus {
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  border-color: var(--primary-color);
+  box-shadow: none;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  padding: 0.8rem;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+  border-color: var(--primary-hover);
+}
