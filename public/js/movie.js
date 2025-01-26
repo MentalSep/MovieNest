@@ -36,9 +36,30 @@ const fetchSimilarMovies = async (id) => {
   }
 };
 
+const fetchtrailer = async (id) => {
+  try {
+    const response = await axios.get(`${TMDB_API_URL}/${id}/videos`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${API_TOKEN}`,
+      },
+    });
+    const trailer = response.data.results.find(
+      (video) => video.type === "Trailer"
+    );
+    console.log(trailer);
+
+    return trailer;
+  } catch (error) {
+    console.error("Error fetching trailer:", error);
+    return {};
+  }
+};
+
 const loadMovie = async () => {
   const movie = await fetchMovie(id);
   const similar = await fetchSimilarMovies(id);
+  const trailer = await fetchtrailer(id);
 
   const movieDetails = document.querySelector(".movie-detail");
   const similarMovies = document.querySelector(".similar-movies");
@@ -60,7 +81,7 @@ const loadMovie = async () => {
             ${movie.overview}
             </p>
             <div class="mt-4">
-            <a href="#" class="btn btn-primary me-2"
+            <a href="https://www.youtube.com/watch?v=${trailer.key}" target="_blank" class="btn btn-primary me-2"
                 ><i class="bi bi-play-circle"></i> Watch Now</a>
             <a href="#" class="btn btn-outline-secondary"
                 ><i class="bi bi-heart"></i> Add to Favorites</a>
