@@ -28,7 +28,7 @@ MovieNest is a web application that allows users to explore, view, and favorite 
 3. Start the server:
 
    ```sh
-   npm run dev
+   npm start
    ```
 
 4. Open your browser and navigate to `http://localhost:3000`.
