@@ -6,6 +6,8 @@ import { fileURLToPath } from "url";
 
 const app = express();
 
+app.use(express.json());
+
 const dirname = Path.dirname(fileURLToPath(import.meta.url));
 app.use(express.static(Path.join(dirname, "public")));
 
