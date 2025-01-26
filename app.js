@@ -13,7 +13,7 @@ app.use(cookieParser());
 const dirname = Path.dirname(fileURLToPath(import.meta.url));
 app.use(express.static(Path.join(dirname, "public")));
 
-app.use(morgan("dev"));
+// app.use(morgan("dev"));
 
 app.use("/", router);
 

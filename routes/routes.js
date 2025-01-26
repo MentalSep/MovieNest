@@ -52,14 +52,11 @@ router.post(
   ],
   async (req, res) => {
     const errors = validationResult(req);
-    // console.log("req.body", req.body);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
     const { username, password } = req.body;
-
-    // console.log("username", username, "password", password);
 
     try {
       const newUser = new User({
@@ -183,8 +180,6 @@ router.post("/unfavorite", verifyToken, async (req, res) => {
   const { movieId } = req.body;
   const userId = req.user.userId;
 
-  // console.log("movieId", movieId, "userId", userId);
-
   try {
     const user = await User.findById(userId);
     if (!user) {
@@ -192,8 +187,6 @@ router.post("/unfavorite", verifyToken, async (req, res) => {
     }
 
     user.favoriteMovies = user.favoriteMovies.filter((id) => id != movieId);
-    // console.log("user.favoriteMovies", user.favoriteMovies);
-
     await user.save();
 
     res.status(200).json({ msg: "Movie removed from favorites" });

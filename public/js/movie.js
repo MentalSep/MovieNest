@@ -47,7 +47,6 @@ const fetchtrailer = async (id) => {
     const trailer = response.data.results.find(
       (video) => video.type === "Trailer"
     );
-    // console.log(trailer);
 
     return trailer;
   } catch (error) {

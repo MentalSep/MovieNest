@@ -16,8 +16,6 @@ document.querySelector("form").addEventListener("submit", async (e) => {
     return;
   }
 
-  //   console.log("username", username, "password", password);
-
   try {
     const response = await fetch("/signup", {
       method: "POST",

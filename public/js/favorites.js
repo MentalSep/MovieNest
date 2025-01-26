@@ -55,15 +55,12 @@ const removeFromFavorites = async (movieId) => {
 
 const loadFavorites = async () => {
   const favoriteMovies = await fetchFavorites();
-  //   console.log("favoriteMovies", favoriteMovies);
-
   const favoriteMoviesData = await Promise.all(
     favoriteMovies.map(async (movieId) => {
       const movieData = await fetchMovieDetails(movieId);
       return movieData;
     })
   );
-  //   console.log("favoriteMoviesData", favoriteMoviesData);
 
   const favoritesList = document.getElementById("favorites-list");
 
