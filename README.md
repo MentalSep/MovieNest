@@ -25,20 +25,13 @@ MovieNest is a web application that allows users to explore, view, and favorite 
    npm install
    ```
 
-3. Create a `.env` file in the root directory and add your MongoDB connection string and JWT secret:
-
-   ```env
-   MONGODB_URI=your_mongodb_connection_string
-   JWT_SECRET=your_jwt_secret
-   ```
-
-4. Start the server:
+3. Start the server:
 
    ```sh
    npm run dev
    ```
 
-5. Open your browser and navigate to `http://localhost:3000`.
+4. Open your browser and navigate to `http://localhost:3000`.
 
 ## Usage
 
