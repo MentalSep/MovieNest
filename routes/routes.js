@@ -5,6 +5,8 @@ import { body, validationResult } from "express-validator";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import secret from "../jwt.js";
+import bcrypt from "bcryptjs";
+import { verifyToken } from "../middleware/verifytoken.js";
 
 const router = express.Router();
 
@@ -66,13 +68,12 @@ router.post(
       });
       await newUser.save();
 
-      // Generate JWT token
       const payload = { userId: newUser._id };
       const token = jwt.sign(payload, secret, { expiresIn: "48h" });
 
       res
         .cookie("token", token, {
-          httpOnly: true,
+          // httpOnly: true,
           // secure: true,
           sameSite: "strict",
           maxAge: 48 * 60 * 60 * 1000, // 48 hours
@@ -85,5 +86,77 @@ router.post(
     }
   }
 );
+
+router.post(
+  "/login",
+  [
+    body("username").notEmpty().withMessage("Username is required"),
+    body("password").notEmpty().withMessage("Password is required"),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { username, password } = req.body;
+
+    try {
+      const user = await User.findOne({ username });
+      if (!user) {
+        return res.status(400).json({ msg: "Invalid username or password" });
+      }
+
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+        return res.status(400).json({ msg: "Invalid username or password" });
+      }
+
+      const payload = { userId: user._id };
+      const token = jwt.sign(payload, secret, { expiresIn: "48h" });
+
+      res
+        .cookie("token", token, {
+          // httpOnly: true,
+          // secure: true,
+          sameSite: "strict",
+          maxAge: 48 * 60 * 60 * 1000, // 48 hours
+        })
+        .status(200)
+        .json({ msg: "Login successful!" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ msg: "Server error" });
+    }
+  }
+);
+
+router.post("/api/favorites", verifyToken, async (req, res) => {
+  const { movieID } = req.body;
+
+  if (!movieID) {
+    return res.status(400).json({ msg: "Movie ID is required" });
+  }
+
+  try {
+    const user = await User.findById(req.user.userId);
+
+    if (!user) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+
+    if (user.favoriteMovies.includes(movieID)) {
+      return res.status(400).json({ msg: "Movie is already in favorites" });
+    }
+
+    user.favoriteMovies.push(movieID);
+    await user.save();
+
+    res.status(200).json({ msg: "Movie added to favorites!" });
+  } catch (error) {
+    console.error("Error adding to favorites:", error);
+    res.status(500).json({ msg: "Server error" });
+  }
+});
 
 export default router;

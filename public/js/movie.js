@@ -64,7 +64,7 @@ const loadMovie = async () => {
   const movieDetails = document.querySelector(".movie-detail");
   const similarMovies = document.querySelector(".similar-movies");
   const markupDetails = `
-    <div class="row g-4">
+    <div class="row g-4" data-movieID="${movie.id}">
         <div class="col-md-4">
             <img
             src="${IMAGE_BASE_URL}${movie.poster_path}"
@@ -83,8 +83,8 @@ const loadMovie = async () => {
             <div class="mt-4">
             <a href="https://www.youtube.com/watch?v=${trailer.key}" target="_blank" class="btn btn-primary me-2"
                 ><i class="bi bi-play-circle"></i> Watch Now</a>
-            <a href="#" class="btn btn-outline-secondary"
-                ><i class="bi bi-heart"></i> Add to Favorites</a>
+            <button class="btn btn-outline-secondary favo-btn"
+                ><i class="bi bi-heart"></i> Add to Favorites</button>
             </div>
         </div>
     </div>
@@ -119,4 +119,37 @@ const loadMovie = async () => {
   similarMovies.innerHTML = markupSimilar;
 };
 
-document.addEventListener("DOMContentLoaded", loadMovie);
+document.addEventListener("DOMContentLoaded", async () => {
+  await loadMovie();
+
+  document.querySelector(".favo-btn").addEventListener("click", async (e) => {
+    e.preventDefault();
+    const token = document.cookie.split("=")[1];
+    if (!token) {
+      alert("You must be logged in to add a movie to your favorites!");
+      // window.location.href = "/login";
+      return;
+    }
+    const movieID =
+      document.querySelector(".movie-detail .row").dataset.movieid;
+    try {
+      const response = await fetch("/api/favorites", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ movieID }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("Movie added to favorites!");
+      } else {
+        alert(data.msg || "An error occurred");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  });
+});

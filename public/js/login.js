@@ -3,17 +3,9 @@ document.querySelector("form").addEventListener("submit", async (e) => {
 
   const username = document.querySelector("#username").value;
   const password = document.querySelector("#password").value;
-  const confirmPassword = document.querySelector("#confirm-password").value;
-
-  if (password !== confirmPassword) {
-    alert("Passwords do not match!");
-    return;
-  }
-
-  console.log("username", username, "password", password);
 
   try {
-    const response = await fetch("/signup", {
+    const response = await fetch("/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -24,15 +16,10 @@ document.querySelector("form").addEventListener("submit", async (e) => {
     const data = await response.json();
 
     if (response.ok) {
-      //   alert("Signup successful! You can now log in.");
-      window.location.href = "/login";
+      //   alert("Login successful!");
+      window.location.href = "/";
     } else {
-      if (data.errors) {
-        // Display the first error message
-        alert("Error first: " + data.errors[0].msg);
-      } else {
-        alert("Error: " + data.msg || "Unknown error");
-      }
+      alert(data.msg || "An error occurred");
     }
   } catch (error) {
     console.error("Error:", error);
